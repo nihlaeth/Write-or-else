@@ -121,6 +121,7 @@ class WriteOrElse:
         else:
             #idling! bad!
             self.idle+=1
+            self.difflength=length # if you want to punish yourself for editing, comment this line out.
             if(self.idle>=self.threshold):
                 self.punish()
 
