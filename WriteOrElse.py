@@ -30,14 +30,16 @@ class WriteOrElse:
         self.fBar.grid(row=1,column=1, columnspan=30, sticky=g.W)
 
         self.bPause = g.Button(self.fBar, text="Pause", command=self.pause)
-        self.bPause.grid(row=1, column=1)
+        self.bPause.grid(row=1, column=2)
         self.bStart = g.Button(self.fBar, text="Start", command=self.start)
-        self.bStart.grid(row=1, column=2)
+        self.bStart.grid(row=1, column=3)
         self.bStop = g.Button(self.fBar, text="Stop", command = self.stop)
-        self.bStop.grid(row=1, column=3)
+        self.bStop.grid(row=1, column=4)
         self.bQuit = g.Button(self.fBar, text="Exit", command=self.master.quit)
-        self.bQuit.grid(row=1, column=4)
-        
+        self.bQuit.grid(row=1, column=5)
+        self.bCopy= g.Button(self.fBar, text="Copy text to clipboard", command=self.clipboard)
+        self.bCopy.grid(row=1, column=1)
+
         #some text
         self.lTitle = g.Label(self.master, text="Write or else!", font=self.lFont)
         self.lTitle.grid(row=2, column=5, sticky=g.W, columnspan=10)
@@ -213,6 +215,9 @@ class WriteOrElse:
         self.minutes=int(self.iMinutes.get().strip())
         self.words=int(self.iTargetWords.get().strip())
         # debug print("Minuten: \""+str(self.minutes)+"\", woorden:\""+str(self.words)+"\"")
+    def clipboard(self):
+        self.master.clipboard_clear()
+        self.master.clipboard_append(self.txt.get(0.0,g.END))
 
 root = g.Tk()
 writeorelse= WriteOrElse(root)
