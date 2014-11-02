@@ -60,7 +60,7 @@ class WriteOrElse:
         self.fStats = g.Frame(master, width=600, height=100, bd=1)
         self.fStats.grid(row=4, column=4, columnspan=10)
 
-        self.lWords = g.Label(self.fStats, text="Words:", font=self.lFont)
+        self.lWords = g.Label(self.fStats, text="Words left:", font=self.lFont)
         self.lWords.grid(row=1, column=1)
         self.lWordsV = g.Label(self.fStats, text="0", font=self.lFont)
         self.lWordsV.grid(row=2, column=1)
@@ -123,8 +123,8 @@ class WriteOrElse:
                 self.punish()
 
         #update visible stats
-        self.lWordsV["text"]=self.totalwords
-        self.lWpmV["text"]=self.wpm
+        self.lWordsV["text"]=self.words-self.totalwords
+        self.lWpmV["text"]="%.2f" % self.wpm
         #construct time left string
         seconds=self.timeLeft%60
         minutes=(self.timeLeft-seconds)/60
