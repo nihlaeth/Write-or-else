@@ -178,6 +178,11 @@ class WriteOrElse:
         #stop timer if it's running
         if(self.tstate):
             self.tstate=False
+        
+        #if music is on, stop it.
+        if(self.music):
+            subprocess.call(["mocp", "--pause"])
+            self.music=False
 
         #update button states
         self.bPause.config(state=g.DISABLED)
@@ -198,6 +203,9 @@ class WriteOrElse:
             #pause
             if(self.tstate):
                 self.tstate=False
+            if(self.music):
+                subprocess.call(["mocp","--pause"])
+                self.music=False
             self.paused=True
 
 
