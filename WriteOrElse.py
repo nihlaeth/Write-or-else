@@ -2,9 +2,19 @@
 
 import Tkinter as g
 import tkFont
-import subprocess
+import os
+OS="None"
+if os.name == 'nt':
+    OS="Windows"
+    import pywinamp
+    print "This is windows!"
+else:
+    OS="Unix"
+    import subprocess
+    print "This is unix!"
 import time
 import threading
+
 
 class WriteOrElse:
     def __init__(self, master):
@@ -100,7 +110,10 @@ class WriteOrElse:
     
         #timer state
         self.tstate=False
-
+        
+        #music
+        if(OS=="Windows"):
+            self.wa=pywinamp.Winamp()
     def count(self):
         #print "count"
         self.timeElapsed+=1
@@ -142,16 +155,20 @@ class WriteOrElse:
 
     def punish(self):
         #stop music if it is running
-        if(self.music):
-            subprocess.call(["mocp", "--pause"])
-            self.music=False
+        #if(self.music):
+        #    subprocess.call(["mocp", "--pause"])
+        #    self.music=False
+        self.mpause()
+
         #set background to red
         self.txt["bg"]="red"
     def reward(self):
         #start music if it isn't on
-        if(not self.music):
-            subprocess.call(["mocp", "--unpause"])
-            self.music=True
+        #if(not self.music):
+        #    subprocess.call(["mocp", "--unpause"])
+        #    self.music=True
+        self.mstart()
+
         #set background to white
         self.txt["bg"]="white"
     def start(self):
@@ -183,9 +200,10 @@ class WriteOrElse:
             self.tstate=False
         
         #if music is on, stop it.
-        if(self.music):
-            subprocess.call(["mocp", "--pause"])
-            self.music=False
+        #if(self.music):
+        #    subprocess.call(["mocp", "--pause"])
+        #    self.music=False
+        self.mpause()
 
         #update button states
         self.bPause.config(state=g.DISABLED)
@@ -206,9 +224,10 @@ class WriteOrElse:
             #pause
             if(self.tstate):
                 self.tstate=False
-            if(self.music):
-                subprocess.call(["mocp","--pause"])
-                self.music=False
+            #if(self.music):
+            #    subprocess.call(["mocp","--pause"])
+            #    self.music=False
+            self.mpause()
             self.paused=True
 
 
@@ -219,7 +238,25 @@ class WriteOrElse:
     def clipboard(self):
         self.master.clipboard_clear()
         self.master.clipboard_append(self.txt.get(0.0,g.END))
-
+    def mplay(self):
+        """Start music"""
+        if(self.music==False):
+            if(OS=="Windows"):
+                self.wa.play()
+                self.music=True
+            else:
+                subprocess.call(["mocp","--unpause"])
+                self.music=True
+            
+    def mpause(self):
+        """Stop music"""
+        if(self.music):
+            if(OS=="Windows"):
+                self.wa.pause()
+                self.music=False
+            else:
+                subprocess.call(["mocp","--pause"])
+                self.music=False
 root = g.Tk()
 writeorelse= WriteOrElse(root)
 root.mainloop()
