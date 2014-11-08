@@ -167,7 +167,7 @@ class WriteOrElse:
         #if(not self.music):
         #    subprocess.call(["mocp", "--unpause"])
         #    self.music=True
-        self.mstart()
+        self.mplay()
 
         #set background to white
         self.txt["bg"]="white"
